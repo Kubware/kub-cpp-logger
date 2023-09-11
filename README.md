@@ -11,7 +11,21 @@
 
 ## Examples
 
-TODO: To be included later.
+Link *Logger.h* header file and **kub** namespace.
+
+```c++
+#include <iostream>
+#include "Logger.h"
+
+using namespace kub;
+
+int main()
+{
+    std::cout << "Kub C++ logger example!\n";       
+    Logger::debug("Test");
+    Logger::debug();   
+}
+```
 
 ## Using and installing
 
