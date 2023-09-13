@@ -31,12 +31,24 @@ int main()
 
 There are two files containing the logger:
 
- - **KubLogger.cpp**
- - **KubLogger.h**
+ - **Logger.h**
+ - **Logger.cpp**
 
-You simply include the KubLogger.cpp and KubLogger.h files in your project and build with your other source code.
 
-The solution is used for development purposes.
+### Manual copy
+
+You can simply include the **Logger.cpp** and **KubLogger.h** files in your project and build together with your other source code.
+
+### Include using NuGet package
+
+To build NuGet package, install **NuGet.CommandLine** package first.
+Than run next command in solution folder using *Package Manager Console*:
+
+```verbatim
+nuget pack src/KubCppLogger.nuspec -outputDirectory C:/NuGet -verbosity detailed
+```
+
+It will create **NuGet** package in C:/NuGet folder, that can be referenced by *NuGet Package manager* as local source.
 
 ## Licence
 

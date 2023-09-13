@@ -128,18 +128,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\Logger.h" />
+    <ClCompile Include="KubCppLogger.cpp" />
+    <ClCompile Include="Logger.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\KubCppLogger.cpp" />
-    <ClCompile Include="..\Logger.cpp" />
+    <ClInclude Include="Logger.h" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\icon.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\KubCppLogger.nuspec" />
-    <None Include="..\KubCppLogger.targets" />
+    <None Include="kubcpplogger.autopkg" />
+    <None Include="KubCppLogger.nuspec" />
+    <None Include="kubcpplogger.props" />
+    <None Include="KubCppLogger.targets" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

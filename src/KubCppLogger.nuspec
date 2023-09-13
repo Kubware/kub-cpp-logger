@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/01/nuspec.xsd">
+	<metadata minClientVersion="2.5">
+		<id>KubCppLogger</id>
+		<version>1.0.0</version>
+		<authors>Jakub Čerkala</authors>
+		<owners>Kubware</owners>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<license type="expression">MIT</license>
+		<title>Kubware C++ Logger</title>
+		<readme>doc\README.md</readme>
+		<icon>icon.png</icon>
+		<projectUrl>https://github.com/Kubware/kub-cpp-logger</projectUrl>
+		<description>NuGet version of simple C++ logger for Kubware applications.</description>
+		<releaseNotes>First version.</releaseNotes>
+		<copyright>Copyright Kubware 2023</copyright>
+		<tags>Native, native, C, C++</tags>
+		<dependencies>
+		</dependencies>
+	</metadata>
+	<files>
+		<file src="KubCppLogger.targets" target="build\native\KubCppLogger.targets" />
+		<file src="icon.png" target="" />
+		<file src="..\README.md" target="doc"      />
+		<file src="..\src\Logger.h" target="build\native\include\Logger.h"      />
+		<file src="..\src\Logger.cpp" target="build\native\src\Logger.cpp"      />
+	</files>
+</package>
