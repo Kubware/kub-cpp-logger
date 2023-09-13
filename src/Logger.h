@@ -12,8 +12,8 @@
 #   include <time.h>
 #   include <windows.h>
 
-#define COLOR_LOG_GREEN		    ""; SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 10);
 #define COLOR_LOG_DEFAULT		""; SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
+#define COLOR_LOG_GREEN		    ""; SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 10);
 #define COLOR_LOG_FATAL			""; SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 207);
 #define COLOR_LOG_ERROR			""; SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 12);
 #define COLOR_LOG_WARNING		""; SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 14);
@@ -61,6 +61,8 @@
 #define LOG_LEVEL_NONE          kub::Logger::Severity::none
 
 #define LOGGER Logger::getLoggerInstance()
+
+#define LOG_DEBUG(...)          LOGGER.logMessage(LOG_LEVEL_DEBUG,__VA_ARGS__) 
 
 using namespace std;
 namespace kub {
@@ -123,10 +125,8 @@ namespace kub {
             // Instantiated on first use.           
             return instance;
         }
-
-        void logMessage(Severity severity, string message);   
-
-        void debug(string message);
+            
+        static void debug(string message);
 
         /// <summary>
         /// Set logger severenity level.
@@ -136,7 +136,53 @@ namespace kub {
             mMaxSeverity = level;
         }
 
-        
+
+        void logMessage(Severity severity, string message);
+
+
+        template<typename T, typename... Targs>
+        void logIt(Severity severity, const char* format, T value, Targs... Fargs) {
+
+            // Ignore lower severenity
+            if (severity > mMaxSeverity) return;
+
+            // Get time and severenity log start
+            string start = logStart(severity);
+
+            if (mConsoleSink) {
+                for (; *format != '\0'; format++)
+                {
+                    if (*format == '%')
+                    {
+                        std::cout << value;
+                        tprintf(format + 1, Fargs...); // recursive call
+                        return;
+                    }
+                    std::cout << *format;
+                }
+            }
+        }
+
+
+        void tprintf(const char* format) // base function
+        {
+            std::cout << format;
+        }
+
+        template<typename T, typename... Targs>
+        void tprintf(const char* format, T value, Targs... Fargs) // recursive variadic function
+        {
+            for (; *format != '\0'; format++)
+            {
+                if (*format == '%')
+                {
+                    std::cout << value;
+                    tprintf(format + 1, Fargs...); // recursive call
+                    return;
+                }
+                std::cout << *format;
+            }
+        }
 
     private:
 

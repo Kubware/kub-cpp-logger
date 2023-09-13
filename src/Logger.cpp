@@ -13,9 +13,10 @@ void kub::Logger::logMessage(Severity severity, string message)
     }
 }
 
-void kub::Logger::debug(string message)
+
+void kub::Logger::debug(string message) 
 {
-    this->logMessage(Logger::Severity::debug, message);
+    Logger::getLoggerInstance().logMessage(Logger::Severity::debug, message);
 }
 
 string kub::Logger::getCurrentTime()
