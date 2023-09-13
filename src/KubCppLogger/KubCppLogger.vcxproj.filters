@@ -42,5 +42,6 @@
     <None Include="..\KubCppLogger.targets">
       <Filter>NuGet</Filter>
     </None>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>

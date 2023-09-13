@@ -18,8 +18,10 @@ int main()
 
     LOG_DEBUG("Debug");
 
-    LOGGER.logIt(LOG_LEVEL_INFO, "% world% %\n", "Hello", '!', 123);
+    LOGGER.logIt(LOG_LEVEL_INFO, "{0} world{0} {0} {0} ss\n", "Hello", 0.01, 123, true);
    
     
+    LOGGER.logIt(LOG_LEVEL_INFO, "{0} world{0} {110\n", "Hello", '!', 123);
 
+    
 }

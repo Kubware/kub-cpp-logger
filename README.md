@@ -1,5 +1,7 @@
 # Kubware C++ Logger
 
+**WARNING - UNDER DEVELOPMENT!!! - do not use**
+
 **Kubware C++ Logger** is simple console or file logger with basic 6 levels of importance:
 
  - VERBOSE
