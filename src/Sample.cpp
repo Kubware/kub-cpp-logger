@@ -10,7 +10,10 @@ int main()
 {
     std::cout << "Kub C++ logger example!\n";
        
-    Logger::debug("Test");
+    Logger::getLoggerInstance().logMessage(LOG_LEVEL_ERROR,"Test");
 
-    Logger::debug();   
+    LOGGER.debug("Test");
+
+   
+    
 }

@@ -23,7 +23,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\KubCppLogger.cpp">
+    <ClCompile Include="..\Sample.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\Logger.cpp">

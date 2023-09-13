@@ -131,7 +131,7 @@
     <ClInclude Include="..\Logger.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\KubCppLogger.cpp" />
+    <ClCompile Include="..\Sample.cpp" />
     <ClCompile Include="..\Logger.cpp" />
   </ItemGroup>
   <ItemGroup>
