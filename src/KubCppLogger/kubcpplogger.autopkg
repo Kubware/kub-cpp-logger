@@ -1,0 +1,34 @@
+nuget {
+    nuspec {
+        id = Kubware.CppLogger;
+        version = 1.0.0.0;
+        title = CppLogger;
+        authors = {J. Cerkala};
+        owners = {J. Cerkala};        
+        projectUrl: "https://github.com/Kubware/kub-cpp-logger";		
+        requireLicenseAcceptance: false;
+        summary: Logger for C++;
+        description: Simple logger;
+        releaseNotes: "None";
+        tags: c++;
+    };
+
+    files {
+    
+        include: { "src\", ".\include\**\*" };
+        
+		[v120, x86, debug] {
+			lib: { "..\cppunit\vc12\cppunitd.lib" };
+		};
+		[v120, x86, release] {
+			lib: { "..\cppunit\vc12\cppunit.lib" };
+		};
+
+		[v110, x86, debug] {
+			lib: { "..\cppunit\vc11\cppunitd.lib" };
+		};
+		[v110, x86, release] {
+			lib: { "..\cppunit\vc11\cppunit.lib" };
+		};
+    }
+}
