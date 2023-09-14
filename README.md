@@ -65,6 +65,7 @@ int main()
     LOGGER_SETTINGS.level = kub::Logger::Severity::verbose;
     LOGGER_SETTINGS.trueValue = "ON";
     LOGGER_SETTINGS.falseValue = "OFF";
+    LOGGER_FILESINK(true,"log.txt");
 
     LOG_VERBOSE("Verbose log");
     LOG_DEBUG("Debug log");

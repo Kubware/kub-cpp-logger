@@ -17,11 +17,36 @@ kub::Logger::Logger() {
 
 	// Log header to standard output.
 	logHeader();
-
 }
 
 kub::Logger::~Logger() {
 	cout << "Logger END" << endl;
+}
+
+bool kub::Logger::setFileSink(bool enabled, string filepath)
+{
+	mFilePath = filepath;
+	mFilesink = enabled;
+
+	if (mFilesink) {
+
+		try
+		{
+			ofstream logFile;
+			logFile.open(mFilePath, ios::out | ios::trunc);
+			logFile << "Logger - The C++ logger utility" << endl;
+			logFile << "version " << LOGGER_VERSION << endl;
+			logFile << "Copyright 2023 Kubware" << endl;			
+			logFile.close();
+			return true;
+		}
+		catch (const std::exception&)
+		{
+			return false;
+		}
+	}	
+
+	return enabled;
 }
 
 string kub::Logger::getCurrentTime()
@@ -38,6 +63,20 @@ string kub::Logger::getCurrentTime()
 	err = _localtime64_s(&newtime, &long_time);
 	ss << put_time(&newtime, "%H:%M:%S") << '.' << std::setfill('0') << std::setw(3) << ms.count();
 	return ss.str();
+}
+
+string kub::Logger::getSeverentityCode(Severity& severity)
+{
+	switch (severity)
+	{
+	case Severity::fatal:       return "FTL";
+	case Severity::error:       return "ERR";
+	case Severity::warning:     return "WRN";
+	case Severity::info:        return "INF";
+	case Severity::debug:       return "DBG";
+	case Severity::verbose:     return "VRB";
+	default:                    return "---";
+	}
 }
 
 string kub::Logger::logStart(Severity& severity)
@@ -61,7 +100,7 @@ string kub::Logger::logStart(Severity& severity)
 		cout << severenityPart;
 		COLOR_LOG_DEFAULT;
 		cout << "| ";
-	}
+	}	
 
 	return string(timePart + " |" + severenityPart + "| ");
 }

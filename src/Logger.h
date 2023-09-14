@@ -5,6 +5,7 @@
 
 #include <stdio.h>
 #include <sstream>
+#include <fstream>
 #include <string>
 #include <iostream>
 #include <chrono>
@@ -71,6 +72,7 @@
 #define LOG_FATAL(message,...)			Logger::getLoggerInstance().logMessage(kub::Logger::Severity::fatal, message, __VA_ARGS__)
 
 #define LOGGER_SETTINGS					Logger::getLoggerInstance().Settings
+#define LOGGER_FILESINK(enabled,...)	Logger::getLoggerInstance().setFileSink(enabled, __VA_ARGS__)
 
 using namespace std;
 namespace kub {
@@ -129,11 +131,7 @@ namespace kub {
 			/// <summary>
 			/// If true, output to console.
 			/// </summary>
-			bool consoleSink = true;
-			/// <summary>
-			/// If true, output to file.
-			/// </summary>
-			bool fileSink = false;
+			bool consoleSink = true;			
 			/// <summary>
 			/// Value printed if boolean argument is true.
 			/// </summary>
@@ -141,7 +139,7 @@ namespace kub {
 			/// <summary>
 			/// Value printed if boolean argument is false.
 			/// </summary>
-			string falseValue = "false";
+			string falseValue = "false";			
 		}
 		Settings;
 
@@ -158,6 +156,13 @@ namespace kub {
 			return instance;
 		}
 
+		/// <summary>
+		/// Log message with specific severenity and arguments.
+		/// </summary>
+		/// <typeparam name="...Targs">Arguments of recursive variadic function.</typeparam>
+		/// <param name="severity">Mesage severenitz.</param>
+		/// <param name="format">Message in required format.</param>
+		/// <param name="...Fargs"></param>
 		template<typename... Targs>
 		void logMessage(Severity severity, const char* format, Targs... Fargs) {
 
@@ -165,7 +170,7 @@ namespace kub {
 			if (severity > Settings.level) return;
 
 			// No sink - ignore log
-			if (Settings.consoleSink == false && Settings.fileSink == false) return;
+			if (Settings.consoleSink == false && mFilesink == false) return;
 
 			// Stream for file log
 			std::stringstream ss;
@@ -174,25 +179,41 @@ namespace kub {
 			ss << logStart(severity);
 
 			// Recursive argument printing
-			printArgument(ss, format, Fargs...); 
+			printArgument(ss, format, Fargs...);
 
 			// Append to file
-			if (Settings.fileSink) {
-				std::cout << ss.str() << endl;
+			if (mFilesink) {
+				ofstream logFile;
+				logFile.open(mFilePath, ios::out | ios::app);
+				logFile << ss.str();
+				logFile.close();
 			}
 			return;
 
 		}
 
+		/// <summary>
+		/// Set logging to file.
+		/// </summary>
+		/// <param name="enabled">If true, logs will be sinked to file.</param>
+		/// <param name="filepath">Filepath to logs file with an extension.</param>
+		/// <returns>True, if file created successfuly. Otherwise false.</returns>
+		bool setFileSink(bool enabled, string filepath = "log.txt");
 
 		/// <summary>
 		/// Base for recursive variadic function.
 		/// </summary>
 		/// <param name="ss">Stream for file log output.</param>
-		/// <param name="format"></param>
+		/// <param name="format">Message in required format.</param>
 		void printArgument(std::stringstream& ss, const char* format)
 		{
-			std::cout << format << endl;
+			if (Settings.consoleSink) {
+				std::cout << format << endl;
+			}			
+
+			if (mFilesink) {
+				ss << format << endl;
+			}
 		}
 
 		/// <summary>
@@ -227,7 +248,6 @@ namespace kub {
 					}
 
 					if (Settings.consoleSink) {
-
 						if (std::is_same<T, int>::value || std::is_same<T, short>::value) {
 							COLOR_LOG_INTEGER;
 							std::cout << value;
@@ -250,7 +270,6 @@ namespace kub {
 							COLOR_LOG_STRING;
 							std::cout << value;
 						}
-
 						COLOR_LOG_DEFAULT;
 					}
 
@@ -276,22 +295,15 @@ namespace kub {
 		/// </summary>
 		/// <param name="severity"></param>
 		/// <returns></returns>
-		static string getSeverentityCode(Severity& severity)
-		{
-			switch (severity)
-			{
-			case Severity::fatal:       return "FTL";
-			case Severity::error:       return "ERR";
-			case Severity::warning:     return "WRN";
-			case Severity::info:        return "INF";
-			case Severity::debug:       return "DBG";
-			case Severity::verbose:     return "VRB";
-			default:                    return "---";
-			}
-		}
+		static string getSeverentityCode(Severity& severity);
 
 	private:
 
+		/// <summary>
+		/// Log time and severenity code.
+		/// </summary>
+		/// <param name="severity">Log message severenity.</param>
+		/// <returns></returns>
 		string logStart(Severity& severity);
 
 		/// <summary>
@@ -310,13 +322,19 @@ namespace kub {
 		/// <param name=""></param>
 		Logger(Logger const&);              // Don't Implement
 
-	public:
+		/// <summary>
+		/// If true, logs are sinked to file.
+		/// </summary>
+		bool mFilesink = false;
 
+		/// <summary>
+		/// Path to file to log.
+		/// </summary>
+		string mFilePath = "log.txt";
+
+	public:
 		void operator=(Logger const&) = delete;
 	};
-
-
-
 }
 
 

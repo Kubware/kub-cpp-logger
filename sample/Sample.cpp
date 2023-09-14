@@ -1,6 +1,3 @@
-// Sample.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
 #include <iostream>
 #include "Logger.h"
 
@@ -13,6 +10,7 @@ int main()
     LOGGER_SETTINGS.level = kub::Logger::Severity::verbose;
     LOGGER_SETTINGS.trueValue = "ON";
     LOGGER_SETTINGS.falseValue = "OFF";
+    LOGGER_FILESINK(true,"log.txt");
 
     LOG_VERBOSE("Verbose log");
     LOG_DEBUG("Debug log");
@@ -25,4 +23,3 @@ int main()
     LOG_INFO("Numbers arguments: int: {0} / short: {0}, float: {0} / double: {0} ", 1000, (short)255, 0.12f, 0.13);
     LOG_INFO("Boolean argument: true: {0} / false: {0}", true, false);   
 }
-

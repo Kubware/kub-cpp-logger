@@ -4,7 +4,6 @@ Rem Do not forget to compile solution for Debug and Release
 
 echo Do not forget to rebuild both DEBUG and RELEASE before running!
 
-
 Rem This batchfile detects version info from logger.h and use it in nuget package version.
 setlocal enabledelayedexpansion
 
@@ -21,7 +20,6 @@ for /f "delims=" %%a in ('findstr %findtext% %findfile%') do set version=%%a
 Rem show version number
 
 echo Current version is %version%
-
 
 Rem generate NuGet with correct version
  
