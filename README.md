@@ -1,6 +1,6 @@
 # Kubware C++ Logger
 
-**WARNING - UNDER DEVELOPMENT!!! - do not use until it is stable version**
+**WARNING - UNDER DEVELOPMENT!!! - do not use until it is stable version!!!**
 
 **Kubware C++ Logger** is simple console or file logger with basic 6 levels of severenity:
 
@@ -11,9 +11,9 @@
  - **ERROR** - something is not working as expected, program execution is not successfull.
  - **FATAL** - there was critical error, program cannot continue.
 
-For logging, there are special **#defines** like **LOG_INFO("Info log");** for each level of severenity.
-
-
+For logging, there are special **#defines** like `LOG_INFO("Info log");`for each level of severenity.
+Except **FATAL** severenity, it is possible to add arguments to highlight specific values in logged message using **{0}** token, for example `LOG_INFO("Value: {0}", 100);`. 
+The `LOG_FATAL("message");` call will include function, source file and line location of log.
 
 ## Using and installing - manual copy
 
@@ -85,9 +85,15 @@ int main()
 
 ![demo](nuget/demo.png)
 
+Code `LOGGER_FILESINK(true,"log.txt");` will turn on logging into file *log.txt*:
+
+![logfile](nuget/logfile.png)
+
 ## Licence
 
-**KubLogger** is available under [MIT-licence](./LICENSE.md).
+**KubLogger** is available under [MIT-licence](./LICENSE.md). 
+
+This is a hobby project without any external supervision or code review.
 
 Copyright &copy; 2023 Kubware
 

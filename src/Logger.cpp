@@ -29,6 +29,43 @@ kub::Logger::~Logger() {
 	cout << "Logger END" << endl;
 }
 
+void kub::Logger::logFatal(const char* format, string function, string source, string line)
+{
+	// No sink - ignore log
+	if (Settings.consoleSink == false && mFilesink == false) return;
+
+	// Stream for file log
+	std::stringstream ss;
+
+	// Get time and severenity log start
+	ss << logStart(Severity::fatal);
+
+	// Print to console
+	if (Settings.consoleSink) {
+		cout << format << endl;
+		COLOR_LOG_VERBOSE;
+		cout << " function: ";
+		COLOR_LOG_INFO;
+		cout << function << "(...)";
+		COLOR_LOG_VERBOSE;
+		cout << " in file: ";
+		COLOR_LOG_INFO;
+		cout << source << ":" << line << endl;
+		COLOR_LOG_DEFAULT;
+	}
+
+	// Append to file
+	if (mFilesink) {
+		ss << format << endl;
+		ss << " function: " << function << "(...)" << " in file: " << source << ":" << line << endl;
+
+		ofstream logFile;
+		logFile.open(mFilePath, ios::out | ios::app);
+		logFile << ss.str();
+		logFile.close();
+	}
+}
+
 bool kub::Logger::setFileSink(bool enabled, string filepath)
 {
 	mFilePath = filepath;
@@ -71,7 +108,7 @@ string kub::Logger::getCurrentTime()
 	return ss.str();
 }
 
-string kub::Logger::getSeverentityCode(Severity& severity)
+string kub::Logger::getSeverentityCode(Severity severity)
 {
 	switch (severity)
 	{
@@ -85,7 +122,7 @@ string kub::Logger::getSeverentityCode(Severity& severity)
 	}
 }
 
-string kub::Logger::logStart(Severity& severity)
+string kub::Logger::logStart(Severity severity)
 {
 	string timePart = getCurrentTime();
 	string severenityPart = getSeverentityCode(severity);

@@ -33,7 +33,6 @@
 #define COLOR_LOG_INFO			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15)
 #define COLOR_LOG_DEBUG		    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7)
 #define COLOR_LOG_VERBOSE		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 8)
-#define COLOR_LOG_NUMBER		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 13)
 
 #define COLOR_LOG_STRING        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 6)  // gold
 #define COLOR_LOG_INTEGER       SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 3)  // light blue
@@ -60,14 +59,14 @@
 #endif
 
 #ifdef _MSC_VER
-#   define HEXLOGGER_GET_FUNC()      __FUNCTION__
-#   define HEXLOGGER_GET_FILENAME() (strrchr(__FILE__, '\\') ? strrchr(__FILE__, '\\') + 1 : __FILE__)
+#   define KUB_LOGGER_GET_FUNC()      __FUNCTION__
+#   define KUB_LOGGER_GET_FILENAME() (strrchr(__FILE__, '\\') ? strrchr(__FILE__, '\\') + 1 : __FILE__)
 #elif defined(__BORLANDC__)
-#   define HEXLOGGER_GET_FUNC()      __FUNC__
-#   define HEXLOGGER_GET_FILENAME() (strrchr(__FILE__, '\\') ? strrchr(__FILE__, '\\') + 1 : __FILE__)
+#   define KUB_LOGGER_GET_FUNC()      __FUNC__
+#   define KUB_LOGGER_GET_FILENAME() (strrchr(__FILE__, '\\') ? strrchr(__FILE__, '\\') + 1 : __FILE__)
 #else
-#   define HEXLOGGER_GET_FUNC()      __PRETTY_FUNCTION__
-#   define HEXLOGGER_GET_FILENAME() (strrchr(__FILE__, '\\') ? strrchr(__FILE__, '\\') + 1 : __FILE__)
+#   define KUB_LOGGER_GET_FUNC()      __PRETTY_FUNCTION__
+#   define KUB_LOGGER_GET_FILENAME() (strrchr(__FILE__, '\\') ? strrchr(__FILE__, '\\') + 1 : __FILE__)
 #endif
 
 
@@ -76,7 +75,7 @@
 #define LOG_INFO(message,...)			Logger::getLoggerInstance().logMessage(kub::Logger::Severity::info, message, __VA_ARGS__) 
 #define LOG_WARNING(message,...)        Logger::getLoggerInstance().logMessage(kub::Logger::Severity::warning, message, __VA_ARGS__)
 #define LOG_ERROR(message,...)			Logger::getLoggerInstance().logMessage(kub::Logger::Severity::error, message, __VA_ARGS__)
-#define LOG_FATAL(message,...)			Logger::getLoggerInstance().logMessage(kub::Logger::Severity::fatal, message, __VA_ARGS__)
+#define LOG_FATAL(message,...)			Logger::getLoggerInstance().logFatal(message, string(KUB_LOGGER_GET_FUNC()), string(KUB_LOGGER_GET_FILENAME()), to_string(__LINE__) )
 
 #define LOGGER_SETTINGS					Logger::getLoggerInstance().Settings
 #define LOGGER_FILESINK(enabled,...)	Logger::getLoggerInstance().setFileSink(enabled, __VA_ARGS__)
@@ -199,6 +198,15 @@ namespace kub {
 		}
 
 		/// <summary>
+		/// Log fatal error with error message and location
+		/// </summary>
+		/// <param name="format">Error message without arguments.</param>
+		/// <param name="function">Function, in which fatal error occured.</param>
+		/// <param name="source">Source file, in which fatal error occured.</param>
+		/// <param name="line">Line at which fatal error occured.</param>
+		void logFatal(const char* format, string function, string source, string line);
+
+		/// <summary>
 		/// Set logging to file.
 		/// </summary>
 		/// <param name="enabled">If true, logs will be sinked to file.</param>
@@ -279,7 +287,21 @@ namespace kub {
 						COLOR_LOG_DEFAULT;
 					}
 
-					ss << value;
+					if (mFilesink) {
+						if (std::is_same<T, bool>::value) {
+							if ((bool)value == true) {
+								ss << Settings.trueValue;
+							}
+							else {
+								ss << Settings.falseValue;
+							}
+						}
+						else {
+							ss << value;
+
+						}
+					}
+
 					printArgument(ss, format + len, Fargs...); // recursive call
 					return;
 				}
@@ -301,7 +323,7 @@ namespace kub {
 		/// </summary>
 		/// <param name="severity"></param>
 		/// <returns></returns>
-		static string getSeverentityCode(Severity& severity);
+		static string getSeverentityCode(Severity severity);
 
 	private:
 
@@ -310,7 +332,7 @@ namespace kub {
 		/// </summary>
 		/// <param name="severity">Log message severenity.</param>
 		/// <returns></returns>
-		string logStart(Severity& severity);
+		string logStart(Severity severity);
 
 		/// <summary>
 		/// Hidden constructor.
