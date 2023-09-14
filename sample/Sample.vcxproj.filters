@@ -13,35 +13,13 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="NuGet">
-      <UniqueIdentifier>{e32bcea7-2853-4636-9313-ec14b36269dc}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Logger.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\Sample.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Logger.cpp">
+    <ClCompile Include="Sample.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\icon.png">
-      <Filter>NuGet</Filter>
-    </Image>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\KubCppLogger.nuspec">
-      <Filter>NuGet</Filter>
-    </None>
-    <None Include="..\KubCppLogger.targets">
-      <Filter>NuGet</Filter>
-    </None>
     <None Include="packages.config" />
   </ItemGroup>
 </Project>

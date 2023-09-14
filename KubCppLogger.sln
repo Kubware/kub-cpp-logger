@@ -3,12 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34024.191
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "KubCppLogger", "src\KubCppLogger\KubCppLogger.vcxproj", "{65D30470-C349-4AC0-945D-EC40B6AEC7F9}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{58106A7E-A1A2-4D8E-9E8F-80AAF934F46E}"
 	ProjectSection(SolutionItems) = preProject
-		README.md = README.md
 		LICENSE.md = LICENSE.md
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "KubCppLogger", "src\KubCppLogger.vcxproj", "{FDCFA90C-8152-42BA-A0DB-EFE231595656}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sample", "sample\Sample.vcxproj", "{5039E3AF-6B96-487C-B9D6-CB5A9E642CB9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nuget", "nuget", "{980FC008-F87D-41A9-8EA2-55F5FF9DB4CE}"
+	ProjectSection(SolutionItems) = preProject
+		nuget\icon.png = nuget\icon.png
+		nuget\KubCppLogger.nuspec = nuget\KubCppLogger.nuspec
+		nuget\KubCppLogger.targets = nuget\KubCppLogger.targets
 	EndProjectSection
 EndProject
 Global
@@ -19,17 +28,28 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{65D30470-C349-4AC0-945D-EC40B6AEC7F9}.Debug|x64.ActiveCfg = Debug|x64
-		{65D30470-C349-4AC0-945D-EC40B6AEC7F9}.Debug|x64.Build.0 = Debug|x64
-		{65D30470-C349-4AC0-945D-EC40B6AEC7F9}.Debug|x86.ActiveCfg = Debug|Win32
-		{65D30470-C349-4AC0-945D-EC40B6AEC7F9}.Debug|x86.Build.0 = Debug|Win32
-		{65D30470-C349-4AC0-945D-EC40B6AEC7F9}.Release|x64.ActiveCfg = Release|x64
-		{65D30470-C349-4AC0-945D-EC40B6AEC7F9}.Release|x64.Build.0 = Release|x64
-		{65D30470-C349-4AC0-945D-EC40B6AEC7F9}.Release|x86.ActiveCfg = Release|Win32
-		{65D30470-C349-4AC0-945D-EC40B6AEC7F9}.Release|x86.Build.0 = Release|Win32
+		{FDCFA90C-8152-42BA-A0DB-EFE231595656}.Debug|x64.ActiveCfg = Debug|x64
+		{FDCFA90C-8152-42BA-A0DB-EFE231595656}.Debug|x64.Build.0 = Debug|x64
+		{FDCFA90C-8152-42BA-A0DB-EFE231595656}.Debug|x86.ActiveCfg = Debug|Win32
+		{FDCFA90C-8152-42BA-A0DB-EFE231595656}.Debug|x86.Build.0 = Debug|Win32
+		{FDCFA90C-8152-42BA-A0DB-EFE231595656}.Release|x64.ActiveCfg = Release|x64
+		{FDCFA90C-8152-42BA-A0DB-EFE231595656}.Release|x64.Build.0 = Release|x64
+		{FDCFA90C-8152-42BA-A0DB-EFE231595656}.Release|x86.ActiveCfg = Release|Win32
+		{FDCFA90C-8152-42BA-A0DB-EFE231595656}.Release|x86.Build.0 = Release|Win32
+		{5039E3AF-6B96-487C-B9D6-CB5A9E642CB9}.Debug|x64.ActiveCfg = Debug|x64
+		{5039E3AF-6B96-487C-B9D6-CB5A9E642CB9}.Debug|x64.Build.0 = Debug|x64
+		{5039E3AF-6B96-487C-B9D6-CB5A9E642CB9}.Debug|x86.ActiveCfg = Debug|Win32
+		{5039E3AF-6B96-487C-B9D6-CB5A9E642CB9}.Debug|x86.Build.0 = Debug|Win32
+		{5039E3AF-6B96-487C-B9D6-CB5A9E642CB9}.Release|x64.ActiveCfg = Release|x64
+		{5039E3AF-6B96-487C-B9D6-CB5A9E642CB9}.Release|x64.Build.0 = Release|x64
+		{5039E3AF-6B96-487C-B9D6-CB5A9E642CB9}.Release|x86.ActiveCfg = Release|Win32
+		{5039E3AF-6B96-487C-B9D6-CB5A9E642CB9}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{980FC008-F87D-41A9-8EA2-55F5FF9DB4CE} = {58106A7E-A1A2-4D8E-9E8F-80AAF934F46E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {65BDEF91-E397-4DBA-8C96-832FF362A0F8}

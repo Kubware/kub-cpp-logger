@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="KubCppLogger.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Logger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -26,12 +23,5 @@
     <ClInclude Include="Logger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="kubcpplogger.props" />
-    <None Include="packages.config" />
-    <None Include="kubcpplogger.autopkg" />
-    <None Include="KubCppLogger.nuspec" />
-    <None Include="KubCppLogger.targets" />
   </ItemGroup>
 </Project>

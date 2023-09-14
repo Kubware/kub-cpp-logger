@@ -1,6 +1,6 @@
 # Kubware C++ Logger
 
-**WARNING - UNDER DEVELOPMENT!!! - do not use**
+**WARNING - UNDER DEVELOPMENT!!! - do not use nuget pack nuget/KubCppLogger.nuspec -outputDirectory C:/NuGet -verbosity detailed**
 
 **Kubware C++ Logger** is simple console or file logger with basic 6 levels of importance:
 
@@ -47,7 +47,7 @@ To build NuGet package, install **NuGet.CommandLine** package first.
 Than run next command in solution folder using *Package Manager Console*:
 
 ```verbatim
-nuget pack src/KubCppLogger.nuspec -outputDirectory C:/NuGet -verbosity detailed
+nuget pack nuget/KubCppLogger.nuspec -outputDirectory C:/NuGet -verbosity detailed 
 ```
 
 It will create **NuGet** package in C:/NuGet folder, that can be referenced by *NuGet Package manager* as local source.
