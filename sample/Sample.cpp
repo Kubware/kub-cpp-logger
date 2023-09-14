@@ -8,18 +8,23 @@ using namespace kub;
 
 int main()
 {
-    std::cout << "Kub C++ logger example!\n";
+    std::cout << "Kub C++ logger example:" << endl;
 
-    Logger::getLoggerInstance().logMessage(kub::Logger::Severity::info , "Test");
-        
-       
+    LOGGER_SETTINGS.level = kub::Logger::Severity::verbose;
+    LOGGER_SETTINGS.trueValue = "ON";
+    LOGGER_SETTINGS.falseValue = "OFF";
 
-    VERBOSE("{0} world{0} {0} {0} ss", "Hello", 0.01, 123, true);
-    DEBUG("{0} world{0} {0} {0} ss", "Hello", 0.01, 123, true);
-    INFO("{0} world{0} {0} {0} ss", "Hello", 0.01, 123, true);
-    WARNING("{0} world{0} {0} {0} ss", "Hello", 0.01, 123, true);
-    ERROR("{0} world{0} {0} {0} ss", "Hello", 0.01, 123, true);
-    FATAL("{0} world{0} {0} {0} ss", "Hello", 0.01, 123, true);
+    LOG_VERBOSE("Verbose log");
+    LOG_DEBUG("Debug log");
+    LOG_INFO("Info log");
+    LOG_WARNING("Warning log");
+    LOG_ERROR("Error log");
+    LOG_FATAL("Fatal log");
+    LOG_INFO("");    
+    LOG_INFO("String argument: {0}", "Hello");
+    LOG_INFO("Numbers arguments: int: {0} / short: {0}, float: {0} / double: {0} ", 1000, (short)255, 0.12f, 0.13);
+    LOG_INFO("Boolean argument: true: {0} / false: {0}", true, false);
+    
 
 }
 

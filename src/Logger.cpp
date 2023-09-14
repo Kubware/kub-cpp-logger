@@ -1,6 +1,28 @@
 #include "Logger.h"
 
+kub::Logger::Logger() {
+	auto logHeader = []() {
+		COLOR_LOG_WARNING;
+		cout << "Logger";
+		COLOR_LOG_DEFAULT;
+		cout << " - The C++ logger utility" << endl;
+		cout << "version 1.0.0" << endl;
+		cout << "Copyright 2023 ";
+		COLOR_LOG_GREEN;
+		cout << "Kubware";
+		COLOR_LOG_DEFAULT;
+		cout << endl;
+		cout << endl;
+		};
 
+	// Log header to standard output.
+	logHeader();
+
+}
+
+kub::Logger::~Logger() {
+	cout << "Logger END" << endl;
+}
 
 string kub::Logger::getCurrentTime()
 {
@@ -23,52 +45,23 @@ string kub::Logger::logStart(Severity& severity)
 	string timePart = getCurrentTime();
 	string severenityPart = getSeverentityCode(severity);
 
-	if (mConsoleSink) {
-		cout << COLOR_LOG_DEFAULT;
+	if (Settings.consoleSink) {
+	    COLOR_LOG_DEFAULT;
 		cout << timePart << " |";
-		string color = "";
 		switch (severity)
 		{
-		case Severity::fatal: color = COLOR_LOG_FATAL break;
-		case Severity::error: color = COLOR_LOG_ERROR break;
-		case Severity::warning: color = COLOR_LOG_WARNING break;
-		case Severity::info: color = COLOR_LOG_INFO break;
-		case Severity::debug:color = COLOR_LOG_DEBUG break;
-		case Severity::verbose: color = COLOR_LOG_VERBOSE break;
-		default: color = COLOR_LOG_DEFAULT break;
+		case Severity::fatal: COLOR_LOG_FATAL; break;
+		case Severity::error:  COLOR_LOG_ERROR; break;
+		case Severity::warning:COLOR_LOG_WARNING; break;
+		case Severity::info:  COLOR_LOG_INFO; break;
+		case Severity::debug: COLOR_LOG_DEBUG; break;
+		case Severity::verbose: COLOR_LOG_VERBOSE; break;
+		default: COLOR_LOG_DEFAULT; break;
 		}
-		cout << color;
 		cout << severenityPart;
-		cout << COLOR_LOG_DEFAULT;
+		COLOR_LOG_DEFAULT;
 		cout << "| ";
 	}
 
 	return string(timePart + " |" + severenityPart + "| ");
-}
-
-/// <summary>
-/// Hidden constructor.
-/// </summary>
-
-kub::Logger::Logger(Severity maxSeverity)
-	: mMaxSeverity(maxSeverity), mConsoleSink(true), mFileSink(false) {
-	cout << "Start" << endl;
-
-	auto logHeader = []() {
-		cout << COLOR_LOG_WARNING
-			cout << "Logger";
-		cout << COLOR_LOG_DEFAULT
-			cout << " - The C++ logger utility" << endl;
-		cout << "version 1.0.0" << endl;
-		cout << "Copyright 2023 ";
-		cout << COLOR_LOG_GREEN
-			cout << "Kubware";
-		cout << COLOR_LOG_DEFAULT
-			cout << endl;
-		cout << endl;
-		};
-
-	// Log header to standard output.
-	logHeader();
-
 }

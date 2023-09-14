@@ -12,17 +12,26 @@
 #   include <time.h>
 #   include <windows.h>
 
-#define COLOR_LOG_DEFAULT		""; SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
-#define COLOR_LOG_GREEN		    ""; SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 10);
-#define COLOR_LOG_FATAL			""; SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 207);
-#define COLOR_LOG_ERROR			""; SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 12);
-#define COLOR_LOG_WARNING		""; SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 14);
-#define COLOR_LOG_INFO			""; SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
-#define COLOR_LOG_DEBUG		    ""; SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
-#define COLOR_LOG_VERBOSE		""; SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 8);
-#define COLOR_LOG_MEMORY		""; SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 6);
-#define COLOR_LOG_NUMBER		""; SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 13);
-#define COLOR_LOG_DETAIL		""; SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 11);
+#ifndef KUB_LOGGER_COLOR_SCHEME
+#define KUB_LOGGER_COLOR_SCHEME
+
+#define COLOR_LOG_DEFAULT		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7)
+#define COLOR_LOG_GREEN		    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 10)
+#define COLOR_LOG_FATAL			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 207)
+#define COLOR_LOG_ERROR			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 12)
+#define COLOR_LOG_WARNING		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 14)
+#define COLOR_LOG_INFO			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15)
+#define COLOR_LOG_DEBUG		    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7)
+#define COLOR_LOG_VERBOSE		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 8)
+#define COLOR_LOG_NUMBER		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 13)
+
+#define COLOR_LOG_STRING        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 6)  // gold
+#define COLOR_LOG_INTEGER       SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 3)  // light blue
+#define COLOR_LOG_FLOAT         SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 13) // magenta
+#define COLOR_LOG_BOOL_TRUE     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 10) // green
+#define COLOR_LOG_BOOL_FALSE	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 12) // false
+
+#endif // KUB_LOGGER_COLOR_SCHEME
 
 #else
 #   include <unistd.h>
@@ -52,16 +61,17 @@
 #endif
 
 
-#define VERBOSE(message,...)         Logger::getLoggerInstance().logMessage(kub::Logger::Severity::verbose, message, __VA_ARGS__);
-#define DEBUG(message,...)         Logger::getLoggerInstance().logMessage(kub::Logger::Severity::debug, message, __VA_ARGS__); 
-#define INFO(message,...)         Logger::getLoggerInstance().logMessage(kub::Logger::Severity::info, message, __VA_ARGS__); 
-#define WARNING(message,...)         Logger::getLoggerInstance().logMessage(kub::Logger::Severity::warning, message, __VA_ARGS__); 
-#define ERROR(message,...)         Logger::getLoggerInstance().logMessage(kub::Logger::Severity::error, message, __VA_ARGS__); 
-#define FATAL(message,...)         Logger::getLoggerInstance().logMessage(kub::Logger::Severity::fatal, message, __VA_ARGS__); 
+#define LOG_VERBOSE(message,...)        Logger::getLoggerInstance().logMessage(kub::Logger::Severity::verbose, message, __VA_ARGS__)
+#define LOG_DEBUG(message,...)			Logger::getLoggerInstance().logMessage(kub::Logger::Severity::debug, message, __VA_ARGS__)
+#define LOG_INFO(message,...)			Logger::getLoggerInstance().logMessage(kub::Logger::Severity::info, message, __VA_ARGS__) 
+#define LOG_WARNING(message,...)        Logger::getLoggerInstance().logMessage(kub::Logger::Severity::warning, message, __VA_ARGS__)
+#define LOG_ERROR(message,...)			Logger::getLoggerInstance().logMessage(kub::Logger::Severity::error, message, __VA_ARGS__)
+#define LOG_FATAL(message,...)			Logger::getLoggerInstance().logMessage(kub::Logger::Severity::fatal, message, __VA_ARGS__)
+
+#define LOGGER_SETTINGS					Logger::getLoggerInstance().Settings
 
 using namespace std;
 namespace kub {
-
 
 	/// <summary>
 	/// Kub C++ Logger main class.
@@ -98,13 +108,42 @@ namespace kub {
 			/// <summary>
 			/// 
 			/// </summary>
-			debug = 5,			
+			debug = 5,
 			/// <summary>
 			/// Full detail logs.
 			/// </summary>
 			verbose = 6,
 
 		};
+
+		/// <summary>
+		/// Current logger settings.
+		/// </summary>
+		struct LoggerSettings {
+			/// <summary>
+			/// Logging minimal severenity included.
+			/// </summary>
+			Severity level = kub::Logger::Severity::verbose;
+			/// <summary>
+			/// If true, output to console.
+			/// </summary>
+			bool consoleSink = true;
+			/// <summary>
+			/// If true, output to file.
+			/// </summary>
+			bool fileSink = false;
+			/// <summary>
+			/// Value printed if boolean argument is true.
+			/// </summary>
+			string trueValue = "true";
+			/// <summary>
+			/// Value printed if boolean argument is false.
+			/// </summary>
+			string falseValue = "false";
+		}
+		Settings;
+
+	public:
 
 		/// <summary>
 		/// Gets the singleton instance for the logger with settings.
@@ -116,23 +155,15 @@ namespace kub {
 			// Instantiated on first use.           
 			return instance;
 		}
-				
-		/// <summary>
-		/// Set logger severenity level.
-		/// </summary>
-		/// <param name="level">New logger severenity level.</param>
-		void setLevel(Severity level) {
-			mMaxSeverity = level;
-		}		
 
 		template<typename... Targs>
 		void logMessage(Severity severity, const char* format, Targs... Fargs) {
 
 			// Ignore lower severenity
-			if (severity > mMaxSeverity) return;
+			if (severity > Settings.level) return;
 
 			// No sink - ignore log
-			if (mConsoleSink == false && mFileSink == false) return;
+			if (Settings.consoleSink == false && Settings.fileSink == false) return;
 
 			// Stream for file log
 			std::stringstream ss;
@@ -140,9 +171,11 @@ namespace kub {
 			// Get time and severenity log start
 			ss << logStart(severity);
 
-			printArgument(ss, format, Fargs...); // recursive call
+			// Recursive argument printing
+			printArgument(ss, format, Fargs...); 
 
-			if (mFileSink) {
+			// Append to file
+			if (Settings.fileSink) {
 				std::cout << ss.str() << endl;
 			}
 			return;
@@ -180,10 +213,10 @@ namespace kub {
 					int len = 0;
 					for (; *format != '}'; format++) {
 						if (*format == '\0' || *format == '{') {
-							if (mConsoleSink) {
-								cout << COLOR_LOG_ERROR
-									std::cout << " Log SYNTAX error!" << endl;
-								cout << COLOR_LOG_DEFAULT
+							if (Settings.consoleSink) {
+								COLOR_LOG_ERROR;
+								cout << " Log SYNTAX error!" << endl;
+								COLOR_LOG_DEFAULT;
 							}
 							ss << " Log SYNTAX error!" << endl;
 							return;
@@ -191,33 +224,32 @@ namespace kub {
 						len++;
 					}
 
-					if (mConsoleSink) {
+					if (Settings.consoleSink) {
 
-						if (std::is_same<T, int>::value) {
-							cout << COLOR_LOG_WARNING
-								std::cout << value;
+						if (std::is_same<T, int>::value || std::is_same<T, short>::value) {
+							COLOR_LOG_INTEGER;
+							std::cout << value;
 						}
-						else if (std::is_same<T, double>::value) {
-							cout << COLOR_LOG_GREEN
-								std::cout << value;
+						else if (std::is_same<T, double>::value || std::is_same<T, float>::value) {
+							COLOR_LOG_FLOAT;
+							std::cout << value;
 						}
 						else if (std::is_same<T, bool>::value) {
-							cout << COLOR_LOG_GREEN
-								if ((bool)value == true) {
-									std::cout << "ON";
-								}
-								else {
-									std::cout << "OFF";
-								}								
+							if ((bool)value == true) {
+								COLOR_LOG_BOOL_TRUE;
+								std::cout << Settings.trueValue;
+							}
+							else {
+								COLOR_LOG_BOOL_FALSE;
+								std::cout << Settings.falseValue;
+							}
 						}
 						else {
-							cout << COLOR_LOG_DETAIL
-								std::cout << value;
+							COLOR_LOG_STRING;
+							std::cout << value;
 						}
 
-						
-							
-						cout << COLOR_LOG_DEFAULT
+						COLOR_LOG_DEFAULT;
 					}
 
 					ss << value;
@@ -256,28 +288,19 @@ namespace kub {
 			}
 		}
 
-		Severity mMaxSeverity;
-
-		bool mConsoleSink;
-
-		bool mFileSink;
-
 	private:
-
 
 		string logStart(Severity& severity);
 
 		/// <summary>
 		/// Hidden constructor.
 		/// </summary>
-		Logger(Severity maxSeverity = Severity::verbose);
+		Logger();
 
 		/// <summary>
 		/// Hidden destructor.
 		/// </summary>
-		~Logger() {
-			cout << "END" << endl;
-		}
+		~Logger();
 
 		/// <summary>
 		/// Copy constructor

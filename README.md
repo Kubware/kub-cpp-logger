@@ -9,7 +9,7 @@
  - INFO
  - WARNING
  - ERROR
- - FAIL
+ - FATAL
 
 ## Examples
 
