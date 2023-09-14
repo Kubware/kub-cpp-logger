@@ -79,6 +79,8 @@ int main()
 }
 ```
 
+![demo](nuget/demo.png)
+
 ## Licence
 
 **KubLogger** is available under [MIT-licence](./LICENSE.md).

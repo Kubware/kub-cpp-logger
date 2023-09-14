@@ -16,6 +16,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sample", "sample\Sample.vcx
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nuget", "nuget", "{980FC008-F87D-41A9-8EA2-55F5FF9DB4CE}"
 	ProjectSection(SolutionItems) = preProject
+		nuget\demo.png = nuget\demo.png
 		nuget\icon.png = nuget\icon.png
 		nuget\KubCppLogger.nuspec = nuget\KubCppLogger.nuspec
 		nuget\KubCppLogger.targets = nuget\KubCppLogger.targets
