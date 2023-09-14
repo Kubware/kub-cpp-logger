@@ -20,6 +20,8 @@ int main()
     LOG_FATAL("Fatal log");
     LOG_INFO("");    
     LOG_INFO("String argument: {0}", "Hello");
-    LOG_INFO("Numbers arguments: int: {0} / short: {0}, float: {0} / double: {0} ", 1000, (short)255, 0.12f, 0.13);
-    LOG_INFO("Boolean argument: true: {0} / false: {0}", true, false);   
+    LOG_INFO("Numbers arguments: int: {0} / short: {0}, float: {0} / double: {0} ",
+        1000, (short)255, 0.12f, 0.13);
+    LOG_INFO("Boolean argument: true: {0} / false: {0}",
+        true, false);   
 }
