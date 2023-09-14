@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) 2023 Jakub Èerkala (https://github.com/KubCode)
+ *
+ * MIT Licence
+ */
+
 #include "Logger.h"
 
 kub::Logger::Logger() {
@@ -7,7 +13,7 @@ kub::Logger::Logger() {
 		COLOR_LOG_DEFAULT;
 		cout << " - The C++ logger utility" << endl;
 		cout << "version " << LOGGER_VERSION << endl;
-		cout << "Copyright 2023 ";
+		cout << "Copyright (c) 2023 ";
 		COLOR_LOG_GREEN;
 		cout << "Kubware";
 		COLOR_LOG_DEFAULT;
@@ -36,7 +42,7 @@ bool kub::Logger::setFileSink(bool enabled, string filepath)
 			logFile.open(mFilePath, ios::out | ios::trunc);
 			logFile << "Logger - The C++ logger utility" << endl;
 			logFile << "version " << LOGGER_VERSION << endl;
-			logFile << "Copyright 2023 Kubware" << endl;			
+			logFile << "Copyright (c) 2023 Kubware" << endl;			
 			logFile.close();
 			return true;
 		}

@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2023 Jakub Èerkala (https://github.com/KubCode)
+ * 
+ * MIT Licence 
+ */
+ 
+
 #ifndef KUB_LOGGER_H
 #define KUB_LOGGER_H
 
@@ -189,7 +196,6 @@ namespace kub {
 				logFile.close();
 			}
 			return;
-
 		}
 
 		/// <summary>

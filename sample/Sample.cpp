@@ -8,9 +8,9 @@ int main()
     std::cout << "Kub C++ logger example:" << endl;
 
     LOGGER_SETTINGS.level = kub::Logger::Severity::verbose;
-    LOGGER_SETTINGS.trueValue = "ON";
+    LOGGER_SETTINGS.trueValue = "ON";     // replace "true" to "ON"
     LOGGER_SETTINGS.falseValue = "OFF";
-    LOGGER_FILESINK(true,"log.txt");
+    LOGGER_FILESINK(true,"log.txt");      // turn on filesink
 
     LOG_VERBOSE("Verbose log");
     LOG_DEBUG("Debug log");

@@ -89,6 +89,6 @@ int main()
 
 **KubLogger** is available under [MIT-licence](./LICENSE.md).
 
-&copy; Kubware 2023
+Copyright &copy; 2023 Kubware
 
 
