@@ -1,6 +1,8 @@
 #ifndef KUB_LOGGER_H
 #define KUB_LOGGER_H
 
+#define LOGGER_VERSION "1.0.0"
+
 #include <stdio.h>
 #include <sstream>
 #include <string>

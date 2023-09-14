@@ -6,7 +6,7 @@ kub::Logger::Logger() {
 		cout << "Logger";
 		COLOR_LOG_DEFAULT;
 		cout << " - The C++ logger utility" << endl;
-		cout << "version 1.0.0" << endl;
+		cout << "version " << LOGGER_VERSION << endl;
 		cout << "Copyright 2023 ";
 		COLOR_LOG_GREEN;
 		cout << "Kubware";

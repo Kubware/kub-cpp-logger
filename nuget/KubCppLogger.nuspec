@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2013/01/nuspec.xsd">
 	<metadata minClientVersion="2.5">
 		<id>KubCppLogger</id>
-		<version>1.0.5</version>
+		<version>0.0.0</version>
 		<authors>Jakub Čerkala</authors>
 		<owners>Kubware</owners>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
