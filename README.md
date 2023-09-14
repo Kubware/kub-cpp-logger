@@ -1,19 +1,56 @@
 # Kubware C++ Logger
 
-**WARNING - UNDER DEVELOPMENT!!! - do not use nuget pack nuget/KubCppLogger.nuspec -outputDirectory C:/NuGet -verbosity detailed**
+**WARNING - UNDER DEVELOPMENT!!! - do not use until it is stable version**
 
-**Kubware C++ Logger** is simple console or file logger with basic 6 levels of importance:
+**Kubware C++ Logger** is simple console or file logger with basic 6 levels of severenity:
 
- - VERBOSE
- - DEBUG
- - INFO
- - WARNING
- - ERROR
- - FATAL
+ - **VERBOSE** - extra details, memory allocations, etc.
+ - **DEBUG** - tracking of function steps.
+ - **INFO** - tracking of program flow.
+ - **WARNING** - something is not as expected, but program can continue.
+ - **ERROR** - something is not working as expected, program execution is not successfull.
+ - **FATAL** - there was critical error, program cannot continue.
 
-## Examples
+For logging, there are special **#defines** like **LOG_INFO("Info log");** for each level of severenity.
 
-Link *Logger.h* header file and **kub** namespace.
+
+
+## Using and installing - manual copy
+
+There are two files containing the logger:
+
+ - **Logger.h**
+ - **Logger.cpp**
+
+You can simply include the **Logger.cpp** and **Logger.h** files in your project and build together with your other source code.
+
+## Using and installing - NuGet package
+
+This logger can be included as **NuGet** package in form of static library.
+To build NuGet package, install **NuGet.CommandLine** package first.
+Than run next command in solution folder using *Package Manager Console*:
+
+```verbatim
+.\packNuGet.bat
+```
+
+The *packNuGet.bat* batch fille will create **NuGet** package in C:/NuGet folder, that can be referenced by *NuGet Package manager* as local source.
+
+## Versioning
+
+The current logger version is defined in file *logger.h* at
+
+```c++
+#define LOGGER_VERSION "1.0.0"
+```
+
+and it is shown in logging after start.
+The batch script *packNuGet.bat* reads this value and create package with the same version number.
+
+## Example
+
+Link *Logger.h* header file and **kub** namespace. 
+Next code shows examples of logger usage:
 
 ```c++
 #include <iostream>
@@ -41,29 +78,6 @@ int main()
     LOG_INFO("Boolean argument: true: {0} / false: {0}", true, false);   
 }
 ```
-
-## Using and installing
-
-There are two files containing the logger:
-
- - **Logger.h**
- - **Logger.cpp**
-
-
-### Manual copy
-
-You can simply include the **Logger.cpp** and **KubLogger.h** files in your project and build together with your other source code.
-
-### Include using NuGet package
-
-To build NuGet package, install **NuGet.CommandLine** package first.
-Than run next command in solution folder using *Package Manager Console*:
-
-```verbatim
-nuget pack nuget/KubCppLogger.nuspec -outputDirectory C:/NuGet -verbosity detailed 
-```
-
-It will create **NuGet** package in C:/NuGet folder, that can be referenced by *NuGet Package manager* as local source.
 
 ## Licence
 
