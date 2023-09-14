@@ -51,18 +51,13 @@
 #   define HEXLOGGER_GET_FILENAME() (strrchr(__FILE__, '\\') ? strrchr(__FILE__, '\\') + 1 : __FILE__)
 #endif
 
-#define LOG_LEVEL_MEMORY        kub::Logger::Severity::memory
-#define LOG_LEVEL_VERBOSE       kub::Logger::Severity::verbose
-#define LOG_LEVEL_DEBUG         kub::Logger::Severity::debug
-#define LOG_LEVEL_INFO          kub::Logger::Severity::info
-#define LOG_LEVEL_WARNING       kub::Logger::Severity::warning
-#define LOG_LEVEL_ERROR         kub::Logger::Severity::error
-#define LOG_LEVEL_LOG_FATAL     kub::Logger::Severity::fatal
-#define LOG_LEVEL_NONE          kub::Logger::Severity::none
 
-#define LOGGER Logger::getLoggerInstance()
-
-#define LOG_DEBUG(...)          LOGGER.logMessage(LOG_LEVEL_DEBUG,__VA_ARGS__) 
+#define VERBOSE(message,...)         Logger::getLoggerInstance().logMessage(kub::Logger::Severity::verbose, message, __VA_ARGS__);
+#define DEBUG(message,...)         Logger::getLoggerInstance().logMessage(kub::Logger::Severity::debug, message, __VA_ARGS__); 
+#define INFO(message,...)         Logger::getLoggerInstance().logMessage(kub::Logger::Severity::info, message, __VA_ARGS__); 
+#define WARNING(message,...)         Logger::getLoggerInstance().logMessage(kub::Logger::Severity::warning, message, __VA_ARGS__); 
+#define ERROR(message,...)         Logger::getLoggerInstance().logMessage(kub::Logger::Severity::error, message, __VA_ARGS__); 
+#define FATAL(message,...)         Logger::getLoggerInstance().logMessage(kub::Logger::Severity::fatal, message, __VA_ARGS__); 
 
 using namespace std;
 namespace kub {
@@ -103,15 +98,11 @@ namespace kub {
 			/// <summary>
 			/// 
 			/// </summary>
-			debug = 5,
-			/// <summary>
-			/// Memory detail log.
-			/// </summary>
-			memory = 6,
+			debug = 5,			
 			/// <summary>
 			/// Full detail logs.
 			/// </summary>
-			verbose = 7,
+			verbose = 6,
 
 		};
 
@@ -132,26 +123,10 @@ namespace kub {
 		/// <param name="level">New logger severenity level.</param>
 		void setLevel(Severity level) {
 			mMaxSeverity = level;
-		}
-
-
-		void logMessage(Severity severity, string message)
-		{
-			// Ignore lower severenity
-			if (severity > mMaxSeverity) return;
-
-			// Get time and severenity log start
-			string start = logStart(severity);
-
-			if (mConsoleSink) {
-				cout << message << endl;
-			}
-		}
-
-
+		}		
 
 		template<typename... Targs>
-		void logIt(Severity severity, const char* format, Targs... Fargs) {
+		void logMessage(Severity severity, const char* format, Targs... Fargs) {
 
 			// Ignore lower severenity
 			if (severity > mMaxSeverity) return;
@@ -165,12 +140,13 @@ namespace kub {
 			// Get time and severenity log start
 			ss << logStart(severity);
 
-			if (mConsoleSink) {
-				printArgument(ss, format, Fargs...); // recursive call
+			printArgument(ss, format, Fargs...); // recursive call
 
+			if (mFileSink) {
 				std::cout << ss.str() << endl;
-				return;
 			}
+			return;
+
 		}
 
 
@@ -275,7 +251,6 @@ namespace kub {
 			case Severity::warning:     return "WRN";
 			case Severity::info:        return "INF";
 			case Severity::debug:       return "DBG";
-			case Severity::memory:      return "MEM";
 			case Severity::verbose:     return "VRB";
 			default:                    return "---";
 			}
@@ -289,60 +264,13 @@ namespace kub {
 
 	private:
 
-		string logStart(Severity& severity)
-		{
-			string timePart = getCurrentTime();
-			string severenityPart = getSeverentityCode(severity);
 
-			if (mConsoleSink) {
-				cout << COLOR_LOG_DEFAULT;
-				cout << timePart << " |";
-				string color = "";
-				switch (severity)
-				{
-				case Severity::fatal: color = COLOR_LOG_FATAL break;
-				case Severity::error: color = COLOR_LOG_ERROR break;
-				case Severity::warning: color = COLOR_LOG_WARNING break;
-				case Severity::info: color = COLOR_LOG_INFO break;
-				case Severity::debug:color = COLOR_LOG_DEBUG break;
-				case Severity::verbose: color = COLOR_LOG_VERBOSE break;
-				case Severity::memory: color = COLOR_LOG_MEMORY break;
-				default: color = COLOR_LOG_DEFAULT break;
-				}
-				cout << color;
-				cout << severenityPart;
-				cout << COLOR_LOG_DEFAULT;
-				cout << "| ";
-			}
-
-			return string(timePart + " |" + severenityPart + "| ");
-		}
+		string logStart(Severity& severity);
 
 		/// <summary>
 		/// Hidden constructor.
 		/// </summary>
-		Logger(Severity maxSeverity = Severity::verbose)
-			: mMaxSeverity(maxSeverity), mConsoleSink(true), mFileSink(false) {
-			cout << "Start" << endl;
-
-			auto logHeader = []() {
-				cout << COLOR_LOG_WARNING
-					cout << "Logger";
-				cout << COLOR_LOG_DEFAULT
-					cout << " - The C++ logger utility" << endl;
-				cout << "version 1.0.0" << endl;
-				cout << "Copyright 2023 ";
-				cout << COLOR_LOG_GREEN
-					cout << "Kubware";
-				cout << COLOR_LOG_DEFAULT
-					cout << endl;
-				cout << endl;
-				};
-
-			// Log header to standard output.
-			logHeader();
-
-		}
+		Logger(Severity maxSeverity = Severity::verbose);
 
 		/// <summary>
 		/// Hidden destructor.

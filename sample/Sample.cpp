@@ -10,17 +10,16 @@ int main()
 {
     std::cout << "Kub C++ logger example!\n";
 
-    Logger::getLoggerInstance().logMessage(LOG_LEVEL_ERROR, "Test");
+    Logger::getLoggerInstance().logMessage(kub::Logger::Severity::info , "Test");
+        
+       
 
-   
-
-    LOG_DEBUG("Debug");
-
-    LOGGER.logIt(LOG_LEVEL_INFO, "{0} world{0} {0} {0} ss\n", "Hello", 0.01, 123, true);
-
-
-    LOGGER.logIt(LOG_LEVEL_INFO, "{0} world{0} {110\n", "Hello", '!', 123);
-
+    VERBOSE("{0} world{0} {0} {0} ss", "Hello", 0.01, 123, true);
+    DEBUG("{0} world{0} {0} {0} ss", "Hello", 0.01, 123, true);
+    INFO("{0} world{0} {0} {0} ss", "Hello", 0.01, 123, true);
+    WARNING("{0} world{0} {0} {0} ss", "Hello", 0.01, 123, true);
+    ERROR("{0} world{0} {0} {0} ss", "Hello", 0.01, 123, true);
+    FATAL("{0} world{0} {0} {0} ss", "Hello", 0.01, 123, true);
 
 }
 
