@@ -83,6 +83,8 @@ int main()
 
 ```
 
+Example code will produce formated and colored output:
+
 ![demo](nuget/demo.png)
 
 Code `LOGGER_FILESINK(true,"log.txt");` will turn on logging into file *log.txt*:
