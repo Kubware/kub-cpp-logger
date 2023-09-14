@@ -91,7 +91,7 @@ Code `LOGGER_FILESINK(true,"log.txt");` will turn on logging into file *log.txt*
 
 ## Licence
 
-**KubLogger** is available under [MIT-licence](./LICENSE.md). 
+**Kubware C++ Logger** is available under [MIT-licence](./LICENSE.md). 
 
 This is a hobby project without any external supervision or code review.
 
