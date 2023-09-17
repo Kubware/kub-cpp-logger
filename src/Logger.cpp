@@ -118,6 +118,7 @@ string kub::Logger::getSeverentityCode(Severity severity)
 	case Severity::info:        return "INF";
 	case Severity::debug:       return "DBG";
 	case Severity::verbose:     return "VRB";
+	case Severity::memory:      return "MEM";
 	default:                    return "---";
 	}
 }
@@ -138,6 +139,7 @@ string kub::Logger::logStart(Severity severity)
 		case Severity::info:  COLOR_LOG_INFO; break;
 		case Severity::debug: COLOR_LOG_DEBUG; break;
 		case Severity::verbose: COLOR_LOG_VERBOSE; break;
+		case Severity::memory: COLOR_LOG_MEMORY; break;
 		default: COLOR_LOG_DEFAULT; break;
 		}
 		cout << severenityPart;

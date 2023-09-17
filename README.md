@@ -1,10 +1,11 @@
 # Kubware C++ Logger
 
-**WARNING - UNDER DEVELOPMENT!!! - do not use until it is stable version!!!**
+**WARNING - UNDER DEVELOPMENT AND TESTING!!! - non-stable version**
 
-**Kubware C++ Logger** is simple console or file logger with basic 6 levels of severenity:
+**Kubware C++ Logger** is simple console or file logger with basic 7 levels of severenity:
 
- - **VERBOSE** - extra details, memory allocations, etc.
+ - **MEMORY** - constructors, destructors, allocation, etc.
+ - **VERBOSE** (**DEFAULT LEVEL**) - extra details, memory allocations, etc.
  - **DEBUG** - tracking of function steps.
  - **INFO** - tracking of program flow.
  - **WARNING** - something is not as expected, but program can continue.

@@ -8,7 +8,7 @@
 #ifndef KUB_LOGGER_H
 #define KUB_LOGGER_H
 
-#define LOGGER_VERSION "1.0.1"
+#define LOGGER_VERSION "1.0.2"
 
 #include <stdio.h>
 #include <sstream>
@@ -33,6 +33,7 @@
 #define COLOR_LOG_INFO			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15)
 #define COLOR_LOG_DEBUG		    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7)
 #define COLOR_LOG_VERBOSE		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 8)
+#define COLOR_LOG_MEMORY 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 3)
 
 #define COLOR_LOG_STRING        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 6)  // gold
 #define COLOR_LOG_INTEGER       SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 3)  // light blue
@@ -69,7 +70,12 @@
 #   define KUB_LOGGER_GET_FILENAME() (strrchr(__FILE__, '\\') ? strrchr(__FILE__, '\\') + 1 : __FILE__)
 #endif
 
+#define LOG_CONSTRUCTOR()               Logger::getLoggerInstance().logMessage(kub::Logger::Severity::memory, "{0} - Constructor", KUB_LOGGER_GET_FUNC())
+#define LOG_DESTRUCTOR()                Logger::getLoggerInstance().logMessage(kub::Logger::Severity::memory, "{0} - Destructor", KUB_LOGGER_GET_FUNC())
+#define LOG_CONSTRUCTOR_NAMED(name)     Logger::getLoggerInstance().logMessage(kub::Logger::Severity::memory, "{0} - Constructor of {0}", KUB_LOGGER_GET_FUNC(), name)
+#define LOG_DESTRUCTOR_NAMED(name)      Logger::getLoggerInstance().logMessage(kub::Logger::Severity::memory, "{0} - Destructor of {0}", KUB_LOGGER_GET_FUNC(), name)
 
+#define LOG_MEMORY(message,...)         Logger::getLoggerInstance().logMessage(kub::Logger::Severity::memory, message, __VA_ARGS__)
 #define LOG_VERBOSE(message,...)        Logger::getLoggerInstance().logMessage(kub::Logger::Severity::verbose, message, __VA_ARGS__)
 #define LOG_DEBUG(message,...)			Logger::getLoggerInstance().logMessage(kub::Logger::Severity::debug, message, __VA_ARGS__)
 #define LOG_INFO(message,...)			Logger::getLoggerInstance().logMessage(kub::Logger::Severity::info, message, __VA_ARGS__) 
@@ -123,6 +129,10 @@ namespace kub {
 			/// Full detail logs.
 			/// </summary>
 			verbose = 6,
+			/// <summary>
+			/// Memory allocation/dealocation log level.
+			/// </summary>
+			memory = 7
 
 		};
 
