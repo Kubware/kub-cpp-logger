@@ -8,7 +8,7 @@
 #ifndef KUB_LOGGER_H
 #define KUB_LOGGER_H
 
-#define LOGGER_VERSION "1.0.0"
+#define LOGGER_VERSION "1.0.1"
 
 #include <stdio.h>
 #include <sstream>

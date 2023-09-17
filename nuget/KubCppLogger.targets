@@ -25,4 +25,12 @@
 			</AdditionalLibraryDirectories>
 		</Link>
 	</ItemDefinitionGroup>
+	
+	<!-- Librarian -->
+	<ItemDefinitionGroup>
+		<Lib>
+			<AdditionalDependencies>KubCppLogger.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<AdditionalLibraryDirectories>$(MSBuildThisFileDirectory)\bin\x64\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+		</Lib>
+	</ItemDefinitionGroup>	
 </Project>
