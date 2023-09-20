@@ -63,7 +63,7 @@ int main()
 {
     std::cout << "Kub C++ logger example:" << endl;
 
-    LOGGER_SETTINGS.level = kub::Logger::Severity::verbose;
+    LOGGER_SETTINGS.level = kub::Logger::Severity::verbose; // by default
     LOGGER_SETTINGS.trueValue = "ON";     // replace "true" to "ON"
     LOGGER_SETTINGS.falseValue = "OFF";
     LOGGER_FILESINK(true,"log.txt");      // turn on filesink
@@ -80,6 +80,17 @@ int main()
         1000, (short)255, 0.12f, 0.13);
     LOG_INFO("Boolean argument: true: {0} / false: {0}",
         true, false);   
+
+    LOGGER_SETTINGS.level = kub::Logger::Severity::memory;
+
+    LOG_CONSTRUCTOR();
+    LOG_DESTRUCTOR();
+    LOG_CONSTRUCTOR_NAMED("Example 1");
+    LOG_MEMORY("Allocating {0} bytes for {0}", 1024, "Example 2");
+    LOG_MEMORY("Deallocating {0} bytes for {0}", 1024, "Example 2");
+    LOG_DESTRUCTOR_NAMED("Example 1");
+
+    system("pause");
 }
 
 ```
